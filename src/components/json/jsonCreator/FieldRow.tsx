@@ -36,14 +36,19 @@ export default function FieldRow({
     onUpdateNode(node.id, { name })
   }
 
+  
   const handleTypeChange = (type: FieldType) => {
-    onUpdateNode(node.id, { type })
-    
-    if (type === "nesting" && (!node.children || node.children.length === 0)) {
-      setTimeout(() => onAddChild(node.id), 0)
+    if (type === "nesting" && (!node.name || node.name.trim() === "")) {
+      alert("Please enter a name before changing the field type to 'nesting'.");
+      return; // Prevent type change
     }
-  }
-
+    onUpdateNode(node.id, { type });
+  
+    if (type === "nesting" && (!node.children || node.children.length === 0)) {
+      setTimeout(() => onAddChild(node.id), 0);
+    }
+  };
+  
   // Get child nodes if this is a nesting type
   const childNodes = node.type === "nesting" ? getNodesByParent(tree, node.id) : []
   

@@ -27,12 +27,19 @@ export default function JsonCreator({ onTreeChange, initialTree }: JsonCreatorPr
     const newTree = addNodeToTree(tree, newNode)
     setTree(newTree)
   }
-
+ 
   const handleAddChildField = (parentId: string) => {
-    const newNode = createNode("", "nesting", parentId)
-    const newTree = addNodeToTree(tree, newNode)
-    setTree(newTree)
-  }
+    const parentNode = tree.nodes[parentId];
+    if (!parentNode || !parentNode.name || parentNode.name.trim() === "") {
+      alert("Parent nesting must have a name before adding a child field.");
+      return;
+    }
+    const newNode = createNode("", "nesting", parentId);
+    const newTree = addNodeToTree(tree, newNode);
+    setTree(newTree);
+  };
+
+  
 
   const handleUpdateNode = (nodeId: string, updates: Partial<any>) => {
     const newTree = updateNode(tree, nodeId, updates)
